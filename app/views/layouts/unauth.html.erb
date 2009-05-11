@@ -1,0 +1,24 @@
+<HTML>
+<HEAD>
+<TITLE><%= @page_title %></TITLE>
+<%
+	#You need to include the following JS file, if you intend to embed the chart using JavaScript.
+	#Embedding using JavaScripts avoids the "Click to Activate..." issue in Internet Explorer
+	#When you make your own charts, make sure that the path to this JS file is correct. Else, you would get JavaScript errors. %>
+<%= javascript_include_tag "FusionCharts" %>
+<%= javascript_include_tag :defaults %>
+<%= calendar_date_select_includes "silver" %>
+<!--<style type="text/css">
+</style> -->
+</HEAD>
+<BODY>
+<%= image_tag("/images/gazebologo.jpg")%>
+<p style="color: green"><%= flash[:notice] %></p>
+<p><%= link_to 'Login', :controller => 'login', :action => 'login' %> |
+   <%= link_to 'Setup & Usage',   :controller => 'gazebo', :action => 'setup' %> |
+   <%= link_to 'About Us',        :controller => 'gazebo', :action => 'about_us' %> |
+   <%= link_to 'Create Chart',    :controller => 'gazebo', :action => 'chart' %>
+</p>
+<%= yield %>
+</BODY>
+</HTML>

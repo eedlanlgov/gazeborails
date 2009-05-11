@@ -1,0 +1,17 @@
+<%
+# The following three variables are used in the "common" layout
+%>
+<% @page_title=" Avg Run time of tests in Single Series Column 3D Chart " %>
+<% @page_heading=" Gazebo Test Data" %>
+<% @page_subheading=" single series chart " %>
+
+<%
+        # The xml is obtained as a string from builder template.
+        str_xml = render :file=>"fusioncharts/array_example/perf_array_data",:locals=>{:arr_data => @performance_data}
+        
+        #Create the chart - Column 3D Chart with data contained in str_xml
+        render_chart '/FusionCharts/Column3D.swf', '', str_xml, 'ColId', 900, 500, false, false do-%>
+
+
+<% end -%>
+

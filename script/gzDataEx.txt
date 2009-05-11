@@ -1,0 +1,21 @@
+id:: 20
+name:: mpiIO-panfsV
+result:: pass
+start:: 2007-05-09 10:59:05
+end:: 2007-05-09 11:01:43
+user:: gazebo
+drm:: torque
+version:: 1.0
+params::
+host:: rr-fe1
+compiler:: pathscale/2.5
+mpi:: mvapich/1.0.0_20-1duration:: real:=157.2, user:=0.84, sys:=2.04
+entrytime:: 2007-05-09 11:01:56
+numprocs:: 256
+ntkgrp:: gzshared
+jobid:: 17425
+segname:: cu14
+nodes:: n14-087 n14-088 n14-089 n14-090 n14-091 n14-096 n14-098 n14-104 n14-105 n14-108 n14-109 n14-110 n14-111 n14-112 n14-113 n14-114 n14-118 n14-119 n14-120
+ n14-121 n14-122 n14-123 n14-124 n14-131 n14-132 n14-133 n14-134 n14-135 n14-136 n14-137 n14-138 n14-139
+td::  n21-numObjs 16 ,  n21-objLen 1048576 Bytes,  n2n-objLen 65536 Bytes, n2n-numObjs 200 ,
+

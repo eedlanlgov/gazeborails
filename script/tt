@@ -1,0 +1,7 @@
+#!/usr/bin/env /Users/cwi/rails/gazebo/script/runner
+
+
+ somestuff = "hi there"
+ puts somestuff
+ myRes = Result.find(1)
+ puts myRes.name

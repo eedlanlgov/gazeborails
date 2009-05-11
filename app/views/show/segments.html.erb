@@ -1,0 +1,12 @@
+<p>app/views/show/segments.html.erb</p>
+
+<h1> the segments and their id's </h1>
+
+<% @segment_data.each do |s| %>
+ <p>
+    segment: <%= s[:segment_name] %>,
+    id: <%= s[:segment_id] %>
+</p>
+<% end %>
+
+

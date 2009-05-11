@@ -1,0 +1,42 @@
+<fieldset>
+<legend><b>Configure Chart Generation</b></legend>
+
+<% form_tag :controller => 'gazebo', :action => 'do_generate' do %>
+	
+    <p>User:  <%= @user_name %></p>
+	
+    <% form_for :platform do |form| %>
+	Segment <%= form.select(:segment, @seg_names) %>
+    <% end %>
+
+    <% form_for :testcase do |form| %>
+	Test Case <%= form.select(:testcase, @testcase_names ) %>
+    <% end %>
+	
+    <% form_for :trenddata do |form| %>
+	Trend Data <%= form.select(:trenddata, @trenddata_names) %>
+    <% end %>
+    
+    <% form_for :chartdata do |form| %>
+	Chart Display <%= form.select(:chartdata, @chart_displaynames) %>
+    <% end %>
+    
+    <% form_for :charttype do |form| %>
+	Chart Format <%= form.select(:charttype, @chart_formatnames) %>
+    <% end %>
+    
+    <p>Start Time <%= calendar_date_select_tag "p_date_and_time", Time.now - 14.days, :time => true %></p>
+    <p>End Time <%=   calendar_date_select_tag "p_date_and_time", Time.now, :time => true %></p>
+
+    <%= render(:partial => "chartdisplay_item", :collection => @chart_displaynames) %>
+    
+    <%= submit_tag "Generate Chart!" %><br>
+    <%= button_to "Reset Options", :controller => 'gazebo', :action => :reset_options %>
+    
+    <p>Canned Reports:<br>
+    <%= link_to 'iperfV maxRate Line',     :controller => 'chart', :action => 'plotTd' %><br>
+    <%= link_to 'Average Run Time Column', :controller => 'chart', :action => 'avgRunTimePerTest' %>
+    </p>
+    
+<% end %>
+</fieldset>

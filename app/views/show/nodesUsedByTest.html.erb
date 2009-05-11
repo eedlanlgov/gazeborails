@@ -1,0 +1,9 @@
+<h1> the nodes and their id's by a test</h1>
+
+<% @node_data.each do |n| %>
+ <p> 
+    node: <%= n[:node_name] %>,
+    id: <%= n[:node_id] %>
+</p>
+<% end %>
+

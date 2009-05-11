@@ -1,0 +1,947 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Komodo Project File - DO NOT EDIT -->
+<project id="5ee10a73-4062-4871-91f1-5dae9ed8f2a6" kpf_version="4" name="gazebo.kpf">
+<macro async="0" icon="chrome://famfamfamsilk/skin/icons/database_lightning.png" id="1f4c5b88-7913-4292-9b47-af1ff21f7b7b" idref="021285d7-2858-4838-a5d0-1e3209190380" keyboard_shortcut="" language="JavaScript" name="db:migrate-to-version" rank="100" trigger="trigger_postopen" trigger_enabled="0">
+try {
+    var obj = {base: 'rake', ruby: null, rake:null, env:null};
+    as_rails_macros.setup_associated_paths_env(obj);
+    var options = {
+        dir: (Components.classes["@activestate.com/koPartService;1"].getService().
+              runningMacro.project.getFile().dirName),
+        env: obj.env,
+        __END__ : null
+    };
+    var version = dialog_prompt("migrate to which version (blank=current)? ");
+    var cmd = obj.rake + ' db:migrate';
+    if (version &amp;&amp; /^\d+$/.test(version)) {
+        cmd += " VERSION=" + version;
+    }
+    as_rails_macros.runCommand(this, cmd, options);
+} catch(ex) {
+    alert(ex + "\n");
+}</macro>
+<macro async="0" icon="chrome://famfamfamsilk/skin/icons/database_refresh.png" id="de659861-56f2-4e08-b3d3-ad508410fee1" idref="021285d7-2858-4838-a5d0-1e3209190380" keyboard_shortcut="" language="JavaScript" name="db:migrate" rank="100" trigger="trigger_postopen" trigger_enabled="0">
+try {
+    var obj = {base: 'rake', ruby:null, rake:null, env:null};
+    as_rails_macros.setup_associated_paths_env(obj);
+    var options = {
+        dir: (Components.classes["@activestate.com/koPartService;1"].getService().
+              runningMacro.project.getFile().dirName),
+        env: obj.env,
+        __END__ : null
+    };
+    as_rails_macros.runCommand(this, obj.rake + ' db:migrate', options);
+} catch(ex) {
+    alert(ex + "\n");
+}
+</macro>
+<snippet id="1d19e463-c5eb-42a5-9b53-849303f8ffbd" idref="17718666-f6df-465c-ba0e-7a0947f83347" indent_relative="true" keyboard_shortcut="" name="for x in names" set_selection="true">
+&lt;% for [[%tabstop1:name]] in [[%tabstop1]]s %&gt;
+  &lt;%= !@#_currentPos!@#_anchor [[%tabstop1]] %&gt;
+&lt;% end %&gt;</snippet>
+<snippet id="31417c9b-349a-4a72-a8c2-95f7eb13d5f1" idref="17718666-f6df-465c-ba0e-7a0947f83347" indent_relative="false" keyboard_shortcut="" name="xhtml-transitional" set_selection="true">
+&lt;!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+!@#_currentPos!@#_anchor</snippet>
+<snippet id="36b5bf58-b439-430a-a7ec-06f51aa02a4b" idref="17718666-f6df-465c-ba0e-7a0947f83347" indent_relative="true" keyboard_shortcut="" name="for-x-in-obj.xs" set_selection="true">
+&lt;% for [[%tabstop1:name]] in [[%tabstop:object]].[[%tabstop1]]s %&gt;
+  &lt;%= !@#_currentPos!@#_anchor [[%tabstop1]].[[%tabstop:attribute]] %&gt;
+&lt;% end %&gt;</snippet>
+<macro async="0" icon="chrome://famfamfamsilk/skin/icons/sum.png" id="0d1136ed-5852-4f2b-8a1b-2c44d82a1515" idref="44043a4c-4c5e-4df2-9a47-7d6b494e6849" keyboard_shortcut="" language="JavaScript" name="Stats" rank="100" trigger="trigger_postopen" trigger_enabled="0">
+try {
+    var obj = {base: 'rake', ruby: null, rake:null, env:null};
+    as_rails_macros.setup_associated_paths_env(obj);
+    var options = {
+        dir: (Components.classes["@activestate.com/koPartService;1"].getService().
+              runningMacro.project.getFile().dirName),
+        env: obj.env,
+        __END__ : null
+    };
+    as_rails_macros.runCommand(this, obj.rake + ' stats', options);
+} catch(ex) {
+    alert(ex + "\n");
+}
+</macro>
+<macro async="0" icon="chrome://famfamfamsilk/skin/icons/sport_tennis.png" id="ad06c879-b04f-4f9f-9a43-7de75bf2692b" idref="592e8289-2657-48ff-a0cc-a76761aba69b" keyboard_shortcut="" language="JavaScript" name="Unit Tests" rank="100" trigger="trigger_postopen" trigger_enabled="0">
+try {
+    var obj = {base: 'rake', ruby: null, rake:null, env:null};
+    as_rails_macros.setup_associated_paths_env(obj);
+    var options = {
+        dir: (Components.classes["@activestate.com/koPartService;1"].getService().
+              runningMacro.project.getFile().dirName),
+        env: obj.env,
+        __END__ : null
+    };
+    as_rails_macros.runCommand(this, obj.rake + ' test:units', options);
+} catch(ex) {
+    alert(ex + "\n");
+}
+</macro>
+<folder id="f2637eb7-09c5-41f4-9946-e9392169bb3c" idref="5ee10a73-4062-4871-91f1-5dae9ed8f2a6" name="Rails Tools">
+</folder>
+<folder id="17718666-f6df-465c-ba0e-7a0947f83347" idref="65c7d231-2447-45be-ab2d-f9d109d67513" name="Views">
+</folder>
+<macro async="1" id="eee85a24-4114-413a-a269-1d377816efb4" idref="882eb37a-1457-445e-ae67-2ac1324fcd7f" keyboard_shortcut="" language="JavaScript" name="rails_init" rank="100" trigger="trigger_observer" trigger_enabled="1" trigger_observer_topic="project_added">
+var project = (Components.classes["@activestate.com/koPartService;1"].getService().
+                       runningMacro.project);
+if (typeof(subject) == "undefined") subject = null;
+else {
+    if (subject != project) {
+        //dump("This macro's project is "
+        //     + project.name
+        //     + " but we were triggered by "
+        //     + ('name' in subject ? subject.name : ("subject: name unknown"))
+        //     + "\n");
+        return;
+    }
+    var suffix = "src/templates/raw/rails/Ruby on Rails.kpf";
+    if (project.url.lastIndexOf(suffix) + suffix.length
+        == project.url.length) {
+        //dump("Loaded the template; leave\n");
+        return;
+    }
+}
+if (typeof(as_rails_macros) == "undefined"
+    || (typeof(as_rails_macros.version) == "number"
+        &amp;&amp; as_rails_macros.version &lt; 0.70)) { // update version # manually
+    as_rails_macros = {  // make it global
+        version : 0.70,
+        
+        CmdSequenceRunner : function(editor, cmds, end_note) {
+            this.editor = editor;
+            this.cmds = cmds;
+            this.end_note = end_note;
+            this.options = {};
+        },
+        
+        validateVersion : function(appPath, appName) {
+            // do a sanity check:
+            var runSvc = Components.classes["@activestate.com/koRunService;1"].getService();
+            var output = {};
+            var error = {};                
+            runSvc.RunAndCaptureOutput('"' + appPath + '" --version',
+                                       '', '', '',
+                                       output, error);
+            var re = new RegExp(appName + '(?:\\.exe)?\\s+Ver[\\s\\d\.]+Distrib[\\s\\d\\.]+',
+                                'i');
+            var res = re.test(output.value);
+            if (!res) {
+                dump("Expecting " + appName
+                     + " from " + appPath
+                     + ", got " + output.value + "\n");
+            }
+            return res;
+        },
+        
+        mysql_bindir : null,
+        mysql_bindir_prefname : "mysql.bin.dir",        
+        getMysql_bindir : function() {
+            if (!this.mysql_bindir) {
+                var global_prefset = Components.classes["@activestate.com/koPrefService;1"].getService().prefs;
+                if (!global_prefset.hasStringPref(this.mysql_bindir_prefname)) {
+                    global_prefset.setStringPref(this.mysql_bindir_prefname, '');
+                } else {
+                    this.mysql_bindir = global_prefset.getStringPref(this.mysql_bindir_prefname);
+                }
+            }
+            return this.mysql_bindir;
+        },
+        setMysql_bindir : function(dirname) {
+            if (this.mysql_bindir != dirname) {
+                var global_prefset = Components.classes["@activestate.com/koPrefService;1"].getService().prefs;
+                global_prefset.setStringPref(this.mysql_bindir_prefname, this.mysql_bindir = dirname);
+            }
+        }, 
+        
+        getExecutablePath : function(appName) {
+            var appPath = Components.classes["@activestate.com/koSysUtils;1"].
+                getService(Components.interfaces.koISysUtils).Which(appName);
+            if (!appPath) {
+                var mysql_bindir = this.getMysql_bindir();
+                var appNameExe = appName;
+                if (Components.classes['@activestate.com/koInfoService;1'].
+                        getService(Components.interfaces.koIInfoService).platform.substring(0, 3) == "win") {
+                    appNameExe += ".exe";
+                }
+                var defaultFilename;
+                var os = Components.classes["@activestate.com/koOs;1"].getService();
+                var ospath = os.path;
+                if (mysql_bindir) {
+                    defaultFilename = ospath.join(mysql_bindir, appNameExe);
+                    if (ospath.exists(defaultFilename)) {
+                        return defaultFilename;
+                    }
+                } else {
+                    defaultFilename = appNameExe;
+                }
+                appPath = ko.filepicker.openExeFile(null, defaultFilename,
+                                                       "Location of " + appName);
+                if (!appPath) {
+                    throw new Error("You cancelled.");
+                }
+                var newMysqlDir;
+                if ((newMysqlDir = ospath.dirname(appPath)) != mysql_bindir) {
+                    dump("Updating mysql bindir to " + newMysqlDir + "\n");
+                    this.setMysql_bindir(newMysqlDir);
+                }
+            }
+            return appPath;
+        },
+        
+        mysqlAdminFinder : function() {
+            if (this.mysqladminPath) {
+                if (this.validateVersion(this.mysqladminPath, 'mysqladmin')) {
+                    return this.mysqladminPath;
+                } else {
+                    dump("bad mysqladmin of [" + this.mysqladminPath + "]: &lt;" + output.value + "&gt;\n");
+                    this.mysqladminPath = null;
+                }
+            }
+            return this.mysqladminPath = this.getExecutablePath("mysqladmin");
+        },
+        
+        mysqlDumpFinder : function() {
+            var mysqldump = null;
+            if (this.mysqldumpPath) {
+                mysqldump = this.mysqldumpPath;
+                dump("this.mysqldumpPath is set\n");
+            } else if (this.mysqladminPath &amp;&amp;
+                       /^(.*)[\/\\]mysqladmin/.test(this.mysqladminPath)) {
+                    mysqldump = RegExp.$1;
+                    dump("this.mysqldumpPath passes\n");
+            }
+            if (mysqldump &amp;&amp; this.validateVersion(mysqldump, 'mysqldump')) {
+                return this.mysqldumpPath = mysqldump;
+            } else {
+                return this.mysqldumpPath = this.getExecutablePath("mysqldump");
+            }
+        },
+        
+        db_adapters : {},
+        db_adapter_handlers : null,
+        db_adapter_commands : {
+            mysql : {
+                'create' : "-u %(username) --password=%(password) %?(socket)  create %(database)",
+                'delete' : "-u %(username) --password=%(password) %?(socket) --force drop %(database)"
+            },
+            __END__ : null
+        },
+        // This function does the following:
+        // 1. Get the root name of the database from the yaml file
+        // 2. Get the username and password from the yaml file
+        // 3. Verify we know how to handle the specified adapter        
+        // 4. Build or delete the databases
+        
+        // @param {Object} "editor"-- the top-level object macros execute in
+        // @param {String} "displayOperation"-- one of 'create' or 'delete'
+        // @param {String} "displayOperationGerund"-- one of 'creation' or 'deletion'
+        manageDatabases : function(editor, displayOperation, displayOperationGerund) {
+            try {
+                var config = this.parseConfig();
+            } catch(ex) {
+                alert(ex + "\n");
+                return;
+            }
+            var self = this;
+            if (!this.db_adapter_handlers) {
+                this.db_adapter_handlers = {};
+                this.db_adapter_handlers.mysql = this.mysqlAdminFinder;
+                // put other handlers here.
+            }
+            var cmds = [];
+            for (var type in {'development':null, 'test':null, 'production':null}) {
+                var thisConfig = config[type];
+                var dbname = thisConfig.database;
+                if (!dbname) {
+                    as_rails_macros.append_terminal_output("No database specified for type " + type);
+                    continue;
+                }
+                var host = thisConfig['host'];
+                if (host &amp;&amp; host != 'localhost') {
+                    as_rails_macros.append_terminal_output("Sorry, you'll have to manually "
+                          + displayOperation
+                          + " database " + dbname + ".  "
+                          + "Only local databases are supported in automatic database manipulation");
+                    continue;
+                }		
+                var adapter = thisConfig['adapter'];
+                if (!(adapter in this.db_adapters)) {
+                    if (adapter.toLowerCase() in this.db_adapter_handlers) {
+                        this.db_adapters[adapter] = this.db_adapter_handlers[adapter.toLowerCase()].apply(this);
+                    } else {
+                        this.db_adapters[adapter] = null;
+                    }
+                }
+                if (!this.db_adapters[adapter]) {
+                    as_rails_macros.append_terminal_output("Sorry, you'll have to manually " + displayOperation
+                          + " database " + dbname + ".  " +
+                          "Komodo Rails projects do not yet support automatic database manipulation for " +
+                          adapter + " databases.");
+                    continue;
+                }
+                var rawCommand = this.db_adapter_commands[adapter][displayOperation];
+                var finishedCommand = this.quote_if_needed(this.db_adapters[adapter]) + " ";
+                while (rawCommand.length &gt; 0) {
+                    if (/^%\((.*?)\)(.*)/.test(rawCommand)) {
+                        var arg = thisConfig[RegExp.$1];
+                        finishedCommand += this.quote_if_needed(arg);
+                        rawCommand = RegExp.$2;
+                    } else if (/^%\?\((.*?)\)(.*)/.test(rawCommand)) {
+                        // like expand %(socket) to either --socket=arg[socket], or ignore
+                        var arg = RegExp.$1;
+                        if (thisConfig[arg]) {
+                            finishedCommand += ("--" + arg + "=" +
+                                                this.quote_if_needed(thisConfig[arg]));
+                        }
+                        rawCommand = RegExp.$2;
+                    } else {
+                        var x = rawCommand.indexOf('%');
+                        if (x &gt; -1) {
+                            finishedCommand += rawCommand.substr(0, x);
+                            rawCommand = rawCommand.substr(x);
+                        } else {
+                            finishedCommand += rawCommand.substr(0, 1);
+                            rawCommand = rawCommand.substr(1);
+                        }
+                    }
+                }
+                cmds.push(finishedCommand);
+            }
+            if (cmds.length &gt; 0) {
+                (new this.CmdSequenceRunner(editor, cmds,
+                    "Database " + displayOperationGerund + " done")).runner();
+            }
+        },
+        
+        _check_opt : function(options, arg, default_val) {
+            return typeof(options[arg]) == "undefined" ? default_val : options[arg];
+        },
+        
+        runCommand : function(editor, cmd, options, terminationCallback) {
+            // Check for undefined commands
+            ko.run.runCommand(editor, cmd,
+                              this._check_opt(options, 'dir', null),
+                              this._check_opt(options, 'env', ''),
+                              this._check_opt(options, 'insertOutput', false),
+                              this._check_opt(options, 'operateOnSelection', false),
+                              this._check_opt(options, 'doNotOpenOutputWindow', false),
+                              this._check_opt(options, 'runIn', "command-output-window"),
+                              this._check_opt(options, 'parseOutput', false),
+                              this._check_opt(options, 'parseRegex', ''),
+                              this._check_opt(options, 'showParsedOutputList', false),
+                              this._check_opt(options, 'name', null),
+                              this._check_opt(options, 'clearOutputWindow', true),
+                              terminationCallback);
+        },
+
+        // return an array of environment strings
+        fixUserEnvPath : function fixUserEnvPath(targetPath) {
+            var userEnvSvc = Components.classes["@activestate.com/koUserEnviron;1"].getService(Components.interfaces.koIUserEnviron);
+            var countHolder = {};
+            var envStrings = userEnvSvc.GetEnvironmentStrings(countHolder);
+            var osSvc = Components.classes["@activestate.com/koOs;1"].getService(Components.interfaces.koIOs);
+            var pathsep = osSvc.pathsep;
+            for (var i = 0; i &lt; envStrings.length; i++) {
+                var env = envStrings[i];
+                var parts = env.split('=', 2);
+                if (parts[0].toLowerCase() == "path") {
+                    var pathdirs = parts[1].split(pathsep);
+                    if (pathdirs[0] != targetPath) {
+                        pathdirs.unshift(targetPath);
+                        return (parts[0] + '=' + pathdirs.join(pathsep));
+                    }
+                    break;
+                }
+            }
+            return null;
+        },
+        
+        get_path_by_ko_pref : function get_path_by_ko_pref(appName) {
+            var path = null;
+            try {
+                path = komodo.interpolate("%(" + appName + ")");
+            } catch(ex) {
+                dump("get_path_possibly_quoted: " + ex + "\n");
+            }
+            return path;
+        },
+        
+        quote_if_needed : function quote_if_needed(s) {
+            var s1;
+            if (/[^\w.:\-\"\'\\\/]/.test(s)) {
+                s1 = '"' + s + '"';
+            } else {
+                s1 = s;
+            }
+            return s1;
+        },
+        
+        get_path_possibly_quoted : function get_path_possibly_quoted(appName) {
+            var path = this.get_path_by_ko_pref(appName);
+            if (path) {
+                path = this.quote_if_needed(path);
+            }
+            return path;
+        },
+        
+        generateRailsObject : function generateRailsObject(editor,
+                                                           extensions,
+                                                           railsTypeName,
+                                                           part_names) {
+            var name;
+            var project = (Components.classes["@activestate.com/koPartService;1"].getService().
+                           runningMacro.project);
+            if (part_names) {
+                var name_list;
+                if (part_names.length == 2) {
+                    name_list = dialog_prompt2(as_rails_macros.capitalize(railsTypeName) + " values",
+                                               part_names[0] + ":", "", part_names[1] + ":", "",
+                                               "Please enter values for the " + railsTypeName,
+                                               "rails:" + part_names[0], "rails:" + part_names[1]);
+                    if (!name_list) return;
+                } else {
+                    name_list = [];
+                    for (var i = 0; i &lt; part_names.length; i++) {
+                        var part_name = part_names[i];
+                        var n = dialog_prompt(as_rails_macros.capitalize(railsTypeName) + " " + part_name + " name",
+                                         railsTypeName + "/" + part_name, "",
+                                         "Please enter a name for the " + part_name,
+                                          "rails:" + part_name);
+                        if (!n) return;
+                        name_list.push(n);
+                    }
+                }
+                name = name_list.join(" ");
+            } else {
+                name = dialog_prompt(as_rails_macros.capitalize(railsTypeName) + " name",
+                                     railsTypeName, "",
+                                     "Please enter a name for a " + railsTypeName);
+            }
+            if (!name) {
+                return;
+            }
+            var projectDirURL = project.url.substring(0, project.url.lastIndexOf("/"));
+            var terminationCallback = function(retval) {
+                try {
+                    var termscin = document.getElementById("runoutput-scintilla").scimoz;
+                    var text = termscin.text;
+                    var textLines = text.split(/\r?\n/);
+                    for (var i = 0; i &lt; textLines.length; i++) {
+                        try {
+                            var a = textLines[i].split(/\s+/);
+                            if (a[0].length == 0) a.shift();
+                            if (a[1] &amp;&amp; a[1].indexOf(".") != -1) {
+                                var doit = (!extensions);
+                                if (!doit) {
+                                    for (var ext in extensions) {
+                                        if (a[1].lastIndexOf(ext) == a[1].length - ext.length) {
+                                            doit = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (doit) {
+                                    var fname = project.getFile().dirName + "/" + a[1];
+                                    fname = projectDirURL + "/" + a[1];
+                                    ko.open.URI(fname);
+                                }
+                            }
+                        } catch(ex) { dump(textLines[i] + ": " + ex + "\n"); }
+                    }
+                } catch(ex) { dump(ex + "\n"); }
+            };
+            var rawRubyPath = this.get_path_by_ko_pref('ruby');
+            if (!rawRubyPath) {
+                throw new Error("No Komodo pref for Ruby was found");
+            }
+            var rubyPath = this.quote_if_needed(rawRubyPath);
+            var cmd = (rubyPath + ' script/generate ' + railsTypeName + ' ' + name + ' --skip');
+            var options = {
+                dir: project.getFile().dirName,
+                env: this.fixUserEnvPath(rawRubyPath),
+                __END__ : null
+            };
+            as_rails_macros.runCommand(editor, cmd, options, terminationCallback);
+        },
+
+        installPlugin : function installPlugin(editor, project,
+                                               plugin, terminationCallback) {
+            if (typeof(terminationCallback) == "undefined") terminationCallback = null;
+            var rawRubyPath = this.get_path_by_ko_pref('ruby');
+            if (!rawRubyPath) {
+                throw new Error("No Komodo pref for Ruby was found");
+            }
+            var rubyPath = this.quote_if_needed(rawRubyPath);
+            var cmd = (rubyPath + ' script/plugin install ' + plugin);
+            var options = {
+                dir: project.getFile().dirName,
+                env: this.fixUserEnvPath(rawRubyPath),
+                __END__ : null
+            };
+            as_rails_macros.runCommand(editor, cmd, options, terminationCallback);
+        },
+
+        setup_associated_paths_env : function setup_associated_paths_env(obj) {
+            var rawRubyPath = this.get_path_by_ko_pref('ruby');
+            if (!rawRubyPath) {
+                throw new Error("No Komodo pref for Ruby was found");
+            }
+            var osPathSvc = Components.classes["@activestate.com/koOsPath;1"].getService(Components.interfaces.koIOsPath);
+            var rootDir = osPathSvc.dirname(rawRubyPath);
+            if ('base' in obj) {
+                obj[obj.base] = this.quote_if_needed(osPathSvc.join(rootDir, obj.base));
+            }
+            obj.ruby = this.quote_if_needed(rawRubyPath);
+            obj.env = this.fixUserEnvPath(rawRubyPath);
+        },
+        
+        launchRubyAppInConsole : function launchRubyAppInConsole(editor, project, cmd_args_str) {
+            var rawRubyPath = this.get_path_by_ko_pref('ruby');
+            if (!rawRubyPath) {
+                throw new Error("No Komodo pref for Ruby was found");
+            }
+            var options = { runIn: "new-console",
+                            dir: project.getFile().dirName,
+                            env: this.fixUserEnvPath(rawRubyPath),
+                            __END__ : null
+            };
+            var rubyPath = this.quote_if_needed(rawRubyPath);
+            var cmd = rubyPath + '  ' + cmd_args_str;
+            as_rails_macros.runCommand(editor, cmd, options);
+        },
+        
+        mysqladminPath : null,
+        
+        getConfig : function() {
+            var project = (Components.classes["@activestate.com/koPartService;1"].getService().
+                           runningMacro.project);
+            var os = Components.classes["@activestate.com/koOs;1"].getService();
+            var ospath = os.path;
+            var parts = [project.getFile().dirName, 'config', 'database.yml'];
+            var configPath = ospath.joinlist(parts.length, parts);
+            if (!ospath.exists(configPath)) {
+                throw new Error("Can't find file " + configPath);
+            }
+            var contents = os.readfile(configPath);
+            return contents;
+        },
+        
+        parseConfig : function(configText) {
+            function mergeConfigs(curr_hash, template_hash) {
+                for (var p in template_hash) {
+                    curr_hash[p] = template_hash[p];
+                }
+            }
+            if (!configText) {
+                configText = this.getConfig();
+            }
+            var lines = configText.split(/\r?\n/);
+            var hash = {development:{}, test:{}, production:{}};
+            var curr_hash = null;
+            var aliases = {};
+            for (var i = 0; i &lt; lines.length; i++) {
+                var line = lines[i];
+                if (/^(\w+)s*:\s+\&amp;(\w+)/.test(line)) {
+                    var anchor_name = RegExp.$2;
+                    if (!aliases[anchor_name]) {
+                        aliases[anchor_name] = {}
+                    }
+                    curr_hash = aliases[anchor_name];
+                } else if (/&lt;&lt;\s*:\s*\*(\w+)/.test(line)) {
+                    var anchor = RegExp.$1;
+                    if (!aliases[anchor]) {
+                        dump("rails_init: parseConfig: Anchor " + anchor + " not recognized\n");
+                    } else {
+                        mergeConfigs(curr_hash, aliases[anchor]);
+                    }
+                } else if (/^(development|test|production):/.test(line)) {
+                    curr_hash = hash[RegExp.$1];
+                } else if (/^\s+(\w+)s*:\s*(.*?)\s*$/.test(line)) {
+                    curr_hash[RegExp.$1] = RegExp.$2;
+                }
+            }
+            return hash;
+        },
+        
+        configSupported : function configSupported(config, requirements) {
+            for (var i in requirements) {
+                var opt = requirements[i];
+                var field = opt[0];
+                if (config[field] &amp;&amp; config[field] != opt[1]) {
+                    return opt[2];
+                }
+            }
+            return null;
+        },
+        
+        // put helper functions here
+        
+        capitalize : function capitalize(s) {
+            if (s.length == 0) return s;
+            else if (s.length == 1) return s.toUpperCase()
+            else return s[0].toUpperCase() + s.substr(1);
+        },    
+        _eol_strs : ["\r\n", "\n", "\r"],
+    
+        append_terminal_output : function(str) {
+            try {
+                var scimoz = document.getElementById("runoutput-scintilla").scimoz;
+                var currNL = this._eol_strs[scimoz.eOLMode];
+                var full_str = (scimoz.getColumn(scimoz.length) == 0) ? "" : currNL;
+                full_str += "*************************************" + currNL + str + currNL;
+                var full_str_byte_length = ko.stringutils.bytelength(full_str);
+                var ro = scimoz.readOnly;
+                try {
+                    scimoz.readOnly = false;
+                    scimoz.appendText(full_str_byte_length, full_str);
+                } finally {
+                    scimoz.readOnly = ro;
+                }
+            } catch(ex) {
+                // dump(ex + "\n");
+                // We failed to write str to the output-window, so alert it.
+                alert(str);
+            }
+        },
+        
+        __end__ : null
+    };
+            
+    // other items are constants in effect
+    as_rails_macros.CmdSequenceRunner.prototype.terminationCallback = function() {
+        try {
+        this.clearOutputWindow = false;
+        this.cmds.shift();
+        if (this.cmds.length &gt; 0) {
+            this.options.clearOutputWindow = false;
+            this.runner();
+        } else if (this.end_note) {
+            as_rails_macros.append_terminal_output(this.end_note);
+        }
+        }catch(ex)  { alert(ex + "\n"); }
+    };
+    as_rails_macros.CmdSequenceRunner.prototype.runner = function() {
+        var self = this;
+        var tcb = function() {
+            self.terminationCallback();
+        }
+        as_rails_macros.runCommand(this.editor, this.cmds[0], this.options, tcb);
+    }
+    
+} else {
+    // dump("as_rails_macros already exists, type = " + typeof(as_rails_macros) + "\n");
+}</macro>
+<macro async="0" icon="chrome://famfamfamsilk/skin/icons/plugin.png" id="0a586bad-3fd1-48f0-a4ce-f3a960e62a20" idref="c659bfce-0662-4fc4-a2c5-946f3fe48069" keyboard_shortcut="" language="JavaScript" name="autocomplete" rank="100" trigger="trigger_postopen" trigger_enabled="0">
+try {
+    var project = (Components.classes["@activestate.com/koPartService;1"].getService().
+                       runningMacro.project);
+    as_rails_macros.installPlugin(this, project,
+                                  'http://svn.rubyonrails.org/rails/plugins/auto_complete');
+} catch(ex) {
+    alert(ex + "\n");
+}
+</macro>
+<macro async="0" icon="chrome://famfamfamsilk/skin/icons/plugin.png" id="4c700df2-10ab-444c-972a-d1b76e2b2573" idref="c659bfce-0662-4fc4-a2c5-946f3fe48069" keyboard_shortcut="" language="JavaScript" name="will_paginate" rank="100" trigger="trigger_postopen" trigger_enabled="0">
+try {
+    var project = (Components.classes["@activestate.com/koPartService;1"].getService().
+                       runningMacro.project);
+    as_rails_macros.installPlugin(this, project,
+                                  'svn://errtheblog.com/svn/plugins/will_paginate');
+} catch(ex) {
+    alert(ex + "\n");
+}
+</macro>
+<macro async="0" icon="chrome://famfamfamsilk/skin/icons/plugin.png" id="655e6d60-3f1e-47a5-86db-a96743dedb66" idref="c659bfce-0662-4fc4-a2c5-946f3fe48069" keyboard_shortcut="" language="JavaScript" name="in-place-editor" rank="100" trigger="trigger_postopen" trigger_enabled="0">
+try {
+    var project = (Components.classes["@activestate.com/koPartService;1"].getService().
+                       runningMacro.project);
+    as_rails_macros.installPlugin(this, project,
+                                  'http://svn.rubyonrails.org/rails/plugins/in_place_editing/');
+} catch(ex) {
+    alert(ex + "\n");
+}
+</macro>
+<macro async="0" icon="chrome://famfamfamsilk/skin/icons/script_lightning.png" id="21db7795-5d24-444b-806b-749dc085edc9" idref="de3a1762-ee4e-4b2f-a14f-7e69ea64bba2" keyboard_shortcut="" language="JavaScript" name="scaffold" rank="100" trigger="trigger_postopen" trigger_enabled="0">
+try {
+    as_rails_macros.generateRailsObject(this,
+                                        {'.rb':null, '.rhtml':null, '.html.erb':null}, // extensions
+                                        'scaffold',
+                                        ['model', 'list of name:type attributes']);
+} catch(ex) {
+    alert(ex + "\n");
+}
+</macro>
+<macro async="0" icon="chrome://famfamfamsilk/skin/icons/script.png" id="45e69093-c447-430a-82aa-7c38788d2bcd" idref="de3a1762-ee4e-4b2f-a14f-7e69ea64bba2" keyboard_shortcut="" language="JavaScript" name="controller" rank="100" trigger="trigger_postopen" trigger_enabled="0">
+try {
+    as_rails_macros.generateRailsObject(this,
+                                        {'.rb':null}, // extensions
+                                        'controller');
+} catch(ex) {
+    alert(ex + "\n");
+}
+</macro>
+<macro async="0" icon="chrome://famfamfamsilk/skin/icons/database_edit.png" id="518a0ea0-a61d-4e4c-b687-047a4e659c8b" idref="de3a1762-ee4e-4b2f-a14f-7e69ea64bba2" keyboard_shortcut="" language="JavaScript" name="migration" rank="100" trigger="trigger_postopen" trigger_enabled="0">
+try {
+    as_rails_macros.generateRailsObject(this,
+                                        null, // extensions
+                                        'migration');
+} catch(ex) {
+    alert(ex + "\n");
+}</macro>
+<macro async="0" icon="chrome://famfamfamsilk/skin/icons/script_edit.png" id="5d7b6c80-4eb5-408d-bdc6-aa657d53e59b" idref="de3a1762-ee4e-4b2f-a14f-7e69ea64bba2" keyboard_shortcut="" language="JavaScript" name="controller-method" rank="100" trigger="trigger_postopen" trigger_enabled="0">
+try {
+    as_rails_macros.generateRailsObject(this,
+                                        {'.rb':null, '.rhtml':null}, // extensions
+                                        'controller',
+                                        ['controller', 'method']);
+} catch(ex) {
+    alert(ex + "\n");
+}
+</macro>
+<macro async="0" icon="chrome://famfamfamsilk/skin/icons/database_add.png" id="fec939e5-1820-40f9-80d8-6f79b1ea61d3" idref="de3a1762-ee4e-4b2f-a14f-7e69ea64bba2" keyboard_shortcut="" language="JavaScript" name="model" rank="100" trigger="trigger_postopen" trigger_enabled="0">
+try {
+    as_rails_macros.generateRailsObject(this,
+                                        {'.rb':null}, // extensions
+                                        'model');
+} catch(ex) {
+    alert(ex + "\n");
+}</macro>
+<folder id="021285d7-2858-4838-a5d0-1e3209190380" idref="f2637eb7-09c5-41f4-9946-e9392169bb3c" name="Migrate">
+</folder>
+<macro async="0" icon="chrome://famfamfamsilk/skin/icons/database_delete.png" id="31afb411-5b0e-4a56-8d70-60516bc29711" idref="f2637eb7-09c5-41f4-9946-e9392169bb3c" keyboard_shortcut="" language="JavaScript" name="Delete Databases" rank="100" trigger="trigger_postopen" trigger_enabled="0">
+(function() {    
+    function deleteDatabases() {
+        as_rails_macros.manageDatabases(this, 'delete', 'deletion');
+    };
+    try {
+        deleteDatabases();
+    } catch(ex) {
+	if (ex.message == "You cancelled.") {
+	    return;
+	}
+        var msg = ex + "\n";
+	if ('stack' in ex) msg += ex.stack + "\n";
+        alert(msg);
+    }
+})();</macro>
+<folder id="44043a4c-4c5e-4df2-9a47-7d6b494e6849" idref="f2637eb7-09c5-41f4-9946-e9392169bb3c" name="~ Misc">
+</folder>
+<macro async="0" icon="chrome://famfamfamsilk/skin/icons/database_add.png" id="4840695e-b0d9-44e9-9b04-3cc14493bd8f" idref="f2637eb7-09c5-41f4-9946-e9392169bb3c" keyboard_shortcut="" language="JavaScript" name="Create Databases" rank="100" trigger="trigger_postopen" trigger_enabled="0">
+(function() {
+    function populateDatabases() {
+        as_rails_macros.manageDatabases(this, 'create', 'creation');
+    };
+    try {
+        populateDatabases();
+    } catch(ex) {
+	if (ex.message == "You cancelled.") {
+	    return;
+	}
+        var msg = ex + "\n";
+	if ('stack' in ex) msg += ex.stack + "\n";
+        alert(msg);
+    }
+})();</macro>
+<folder id="592e8289-2657-48ff-a0cc-a76761aba69b" idref="f2637eb7-09c5-41f4-9946-e9392169bb3c" name="Test">
+</folder>
+<folder id="65c7d231-2447-45be-ab2d-f9d109d67513" idref="f2637eb7-09c5-41f4-9946-e9392169bb3c" name="Snippets">
+</folder>
+<folder id="882eb37a-1457-445e-ae67-2ac1324fcd7f" idref="f2637eb7-09c5-41f4-9946-e9392169bb3c" name="~Internal">
+</folder>
+<folder id="c659bfce-0662-4fc4-a2c5-946f3fe48069" idref="f2637eb7-09c5-41f4-9946-e9392169bb3c" name="Plugins">
+</folder>
+<folder id="de3a1762-ee4e-4b2f-a14f-7e69ea64bba2" idref="f2637eb7-09c5-41f4-9946-e9392169bb3c" name="Generators">
+</folder>
+<folder id="ff29f9e7-09d1-4a17-99f9-4fca417cbb36" idref="f2637eb7-09c5-41f4-9946-e9392169bb3c" name="Run">
+</folder>
+<macro async="0" icon="chrome://famfamfamsilk/skin/icons/application_osx_terminal.png" id="82a8f238-2bde-456d-9354-1a1b6dad7f1f" idref="ff29f9e7-09d1-4a17-99f9-4fca417cbb36" keyboard_shortcut="" language="JavaScript" name="rails console" rank="100" trigger="trigger_postopen" trigger_enabled="0">
+(function() {
+    try {
+        var project = (Components.classes["@activestate.com/koPartService;1"].getService().
+                        runningMacro.project);
+        var rawRubyPath = as_rails_macros.get_path_by_ko_pref('ruby');
+        var osPathSvc =
+    Components.classes["@activestate.com/koOsPath;1"].getService(Components.interfaces.koIOsPath);
+        var rubyDir = osPathSvc.dirname(rawRubyPath);
+        var irbPath = osPathSvc.join(rubyDir, 'irb');
+        if (!osPathSvc.exists(irbPath)) {
+            irbPath = null;
+            var candidates = {"irb.sh" : 1, "irb.bat" : 1, "irb.cmd" : 1 };
+            var resultObj = {};
+            var filenames = (Components.classes["@activestate.com/koOs;1"].
+                     getService(Components.interfaces.koIOs).listdir(rubyDir, resultObj));
+            for (var idx in filenames)  {
+                var fname = filenames[idx];
+                if (fname in candidates)  {
+                    irbPath = osPathSvc.join(rubyDir, fname);
+                    break;
+                }
+            }
+            if (!irbPath) {
+                alert(("Sorry, can't find a version of irb in the directory " + rubyDir
+                       + ".  Please check the path to Ruby in the preferences section."));
+                prefs_doGlobalPrefs('rubyItem');
+                return;
+            }
+        }
+        if (/[^\w.:\-\"\'\\\/]/.test(irbPath)) {
+            irbPath = '"' + irbPath + '"';
+        }
+        var cmd = 'script/console';
+        as_rails_macros.launchRubyAppInConsole(this, project, cmd);
+   } catch(ex) {
+       alert(ex + "\n");
+   }
+})();</macro>
+<macro async="0" icon="chrome://famfamfamsilk/skin/icons/application_go.png" id="d11c8aae-731a-4004-81c8-657997f6b079" idref="ff29f9e7-09d1-4a17-99f9-4fca417cbb36" keyboard_shortcut="" language="JavaScript" name="run server" rank="100" trigger="trigger_postopen" trigger_enabled="0">
+(function() {
+    try {
+        var project = (Components.classes["@activestate.com/koPartService;1"].getService().
+                        runningMacro.project);
+        as_rails_macros.launchRubyAppInConsole(this, project, 'script/server');
+    } catch(ex) {
+        alert(ex + "\n");
+    }
+})();</macro>
+<macro async="0" icon="chrome://famfamfamsilk/skin/icons/bug_go.png" id="d7c2085e-fc24-49d7-8c7e-49643376b75a" idref="ff29f9e7-09d1-4a17-99f9-4fca417cbb36" keyboard_shortcut="" language="JavaScript" name="debug rails app" rank="100" trigger="trigger_postopen" trigger_enabled="0">
+(function() {
+    function launchDebugger(editor, project, host, port, rbpath) {
+        var obj = {ruby: null, env:null};
+        as_rails_macros.setup_associated_paths_env(obj);
+        var rdbenv = 'RUBYDB_OPTS=remoteport=' + host + ":" + port;
+        if (obj.env) {
+            obj.env += "\n" + rdbenv;
+        } else {
+            obj.env = rdbenv;
+        }
+        var options = { runIn: "new-console",
+                        dir: project.getFile().dirName,
+                        env : obj.env,
+                        __END__ : null
+        };
+        var cmd = (obj.ruby + ' -I "'
+                   + rbpath
+                   + '" -r rdbgp.rb script/server webrick');
+        as_rails_macros.runCommand(editor, cmd, options);
+    }
+    try {
+        if (!gDBG_Listener) {
+            var productTypePrintable;
+            try {
+                productTypePrintable = ("the " + Components.
+                            classes["@activestate.com/koInfoService;1"].
+                            getService(Components.interfaces.koIInfoService).
+                            productType);
+            } catch(ex) {
+                productTypePrintable = "this";
+            }
+            var message = ("Debugging is not supported in "
+                            + productTypePrintable
+                            + " edition of Komodo");
+            throw new Error(message);
+        }
+        var os = Components.classes["@activestate.com/koOs;1"].getService();
+        var ospath = os.path;
+        var dirSvc = Components.classes["@activestate.com/koDirs;1"].getService();
+        var items = [dirSvc.supportDir, "dbgp", "rubylib"];
+        var rbpath = ospath.joinlist(items.length, items).replace(/\\/g, '/');
+        var host = 'localhost';
+        if (!gDBG_Listener.isListening()) {
+            gDBG_Controller.do_cmd_debuggerListener();
+            if (!gDBG_Listener.isListening()) {
+                ko.dialogs.alert("Please choose a different port, and retry this command");
+                prefs_doGlobalPrefs('debuggerConnection');
+                return;
+            }
+        }
+        var port = gDBG_Listener.manager.port;
+        var project = (Components.classes["@activestate.com/koPartService;1"].getService().
+                       runningMacro.project);
+        launchDebugger(this, project, host, port, rbpath);
+    } catch(ex) {
+        alert(ex + "\n");
+    }
+})();</macro>
+<preference-set idref="5ee10a73-4062-4871-91f1-5dae9ed8f2a6">
+  <boolean id="import_live">1</boolean>
+  <string id="lastTestPlanName_pref">test:plugins</string>
+<preference-set id="testPlans">
+<preference-set id="test all">
+  <string id="command_line">rake test</string>
+  <string relative="url" id="directory"></string>
+  <string id="language">Ruby - Rake tests</string>
+</preference-set>
+<preference-set id="test:functionals">
+  <string id="command_line">rake test:functionals</string>
+  <string relative="url" id="directory"></string>
+  <string id="language">Ruby - Rake tests</string>
+</preference-set>
+<preference-set id="test:integration">
+  <string id="command_line">rake test:integration</string>
+  <string relative="url" id="directory"></string>
+  <string id="language">Ruby - Rake tests</string>
+</preference-set>
+<preference-set id="test:plugins">
+  <string id="command_line">rake test:plugins</string>
+  <string relative="url" id="directory"></string>
+  <string id="language">Ruby - Rake tests</string>
+</preference-set>
+<preference-set id="test:units">
+  <string id="command_line">rake test:units</string>
+  <string relative="url" id="directory"></string>
+  <string id="language">Ruby - Rake tests</string>
+</preference-set>
+</preference-set>
+</preference-set>
+<preference-set idref="5ee10a73-4062-4871-91f1-5dae9ed8f2a6/app/controllers/gazebo_controller.rb">
+<preference-set id="Invocations">
+<preference-set id="default">
+  <string id="cookieparams"></string>
+  <string id="cwd"></string>
+  <string id="documentRoot"></string>
+  <string id="executable-params"></string>
+  <string relative="path" id="filename">app/controllers/gazebo_controller.rb</string>
+  <string id="getparams"></string>
+  <string id="language">Ruby</string>
+  <string id="mpostparams"></string>
+  <string id="params"></string>
+  <string id="postparams"></string>
+  <string id="posttype">application/x-www-form-urlencoded</string>
+  <string id="request-method">GET</string>
+  <boolean id="show-dialog">1</boolean>
+  <boolean id="sim-cgi">0</boolean>
+  <boolean id="use-console">0</boolean>
+  <string id="userCGIEnvironment"></string>
+  <string id="userEnvironment"></string>
+</preference-set>
+</preference-set>
+  <string id="lastInvocation">default</string>
+</preference-set>
+<preference-set idref="5ee10a73-4062-4871-91f1-5dae9ed8f2a6/app/controllers/login_controller.rb">
+<preference-set id="Invocations">
+<preference-set id="default">
+  <string id="cookieparams"></string>
+  <string id="cwd"></string>
+  <string id="documentRoot"></string>
+  <string id="executable-params"></string>
+  <string relative="path" id="filename">app/controllers/login_controller.rb</string>
+  <string id="getparams"></string>
+  <string id="language">Ruby</string>
+  <string id="mpostparams"></string>
+  <string id="params"></string>
+  <string id="postparams"></string>
+  <string id="posttype">application/x-www-form-urlencoded</string>
+  <string id="request-method">GET</string>
+  <boolean id="show-dialog">1</boolean>
+  <boolean id="sim-cgi">0</boolean>
+  <boolean id="use-console">0</boolean>
+  <string id="userCGIEnvironment"></string>
+  <string id="userEnvironment"></string>
+</preference-set>
+</preference-set>
+  <string id="lastInvocation">default</string>
+</preference-set>
+<preference-set idref="5ee10a73-4062-4871-91f1-5dae9ed8f2a6/app/views/gazebo/chart.html.erb">
+</preference-set>
+</project>

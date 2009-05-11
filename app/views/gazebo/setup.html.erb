@@ -1,0 +1,250 @@
+<BODY BACKGROUND="images/gazebofaded.jpg">
+<p><h2>Setup & Usage</h2></p>
+     ====================================<br>
+             ***  Gazebo Acceptance Testing Component  ***<br>
+     ====================================<br>
+                             <%= @docpubdate %><br>
+                                ver 1.0<br>
+<br>
+<br>
+This document describes how to install, configure, and use the <br>
+Acceptance Testing Component (ATC) of the Gazebo software suite. <br>
+<br>
+General Notes <br>
+=============<br>
+<br>
+In this document the following conventions are used:<br>
+<br>
+-  the words tests and jobs are used synonymously.<br>
+-  testName denotes the name of the test.<br>
+-  testHome is the directory where the ATC software has been installed.<br>
+<br>
+It is assumed that:<br>
+<br>
+-  testHome and testHome/bin are at the beginning of your $PATH.<br>
+-  You have the appropriate compilers and libraries installed for your tests/jobs.<br>
+-  Moab is installed, configured, and fully operational on the system you are testing.<br>
+<br>
+<br>
+Installation<br>
+============<br>
+<br>
+- create a testHome directory (named anything you want),<br>
+  put the tar file into it, and untar it.<br>
+<br>
+<br>
+Master Configuration<br>
+====================<br>
+<br>
+- edit the master configuration file (testHome/gezebo.conf), following the
+  instructions above each of the variables.  Run testHome/bin/gazebo_seeConf
+  to verify the values.<br>
+<br>
+Adding New Tests<br>
+==================<br>
+<br>
+1. Run "testHome/bin/atc_copyAddDelete -t " followed by a unique test name.<br>
+   This will create the new test directory (testHome/test_exec/testName)<br>
+   and place template files into it along with a README.  Read this README.<br>
+   Run "testHome/bin/atc_copyAddDelete -h" for full listing of options available.<br>
+<br>
+ Note: Tests are differentiated by the PE size and input parameters for reporting<br>
+    purposes.  If a test is different for any other reason (e.g., mpi library or<br>
+    compiler) we recommend creating a different test name or use input parameters<br>
+    to modify the behavior of the test.<br>
+<br>
+2. Create and Edit a config file from the example file created in the directory<br>
+   in step 1.  This file is mandatory. Edit the config variables as necessary.<br>
+<br>
+3. Create and Edit a makeit script from the example file created in the directory<br>
+   in step 1.  Edit the file as necessary to build your test.<br>
+<br>
+4. Use the runit.example script created in step 1 as an example script to create<br>
+   a script to execute your test.  Edit it appropriately for this installation.<br>
+   Name it appropriately and edit the config file so that the CMD variable is set<br>
+   to this file name.<br>
+<br>
+  <br>
+Test Run Configuration<br>
+=======================<br>
+<br>
+- edit (or create) a submission configuration file in the testHome/submit_configs<br>
+  directory (called test_config_(segment_name)) which contains one line for<br>
+  each unique test execution.  (Note that you can repeat the same test<br>
+  configuration line with different test parameters at the end<br>
+  of the line.)<br>
+  Comments begin with a pound sign (#).  Comments and blank lines are ignored.<br>
+<br>
+  The following is the format of a test selection line in this file.<br>
+  Elements are seperated by blanks.<br>
+ <br>
+  testName npes percent priority time_limit node_list test_executable "execution_parameters"<br>
+ <br>
+    testName = Matches single-word directory name of test. MUST NOT <br>
+                contain "_" nor "."<br>
+<br>
+    npes     = Number of cpu's to use <br>
+<br>
+    percent   = percentage of time to run this test relative to other <br>
+                tests included in this file (which means in this set of<br>
+                tests to be submitted together for execution)<br>
+<br>
+    priority  = integer indicating submission priority ( -1024 < p < 0 ), <br>
+                or - to use moab/torque (msub/qsub) default priority<br>
+<br>
+    time_limit = hh:mm:ss, job run time limit<br>
+<br>
+    node_list = *, to have  moab/torque (msub/qsub) select nodes to run on; or<br>
+                -, to have atc_run select nodes so that nodes are <br>
+                used evenly, tiling jobs across all nodes; or<br>
+                a comma-delimited list of node names such as XXXYYY,XXXYYY,<br>
+                ..., where XXX=segment name, YYY=node numbers<br>
+<br>
+    test_executable = optional entry to use a different test run script<br>
+                than the one specified in the test config file (CMD).  To <br>
+                skip this parameter enter it as a dash (-), which causes the <br>
+                default run script to be used.<br>
+<br>
+    execution_parameters = optional quoted list of command line parameters<br>
+                used by the test executable (don't forget to quote this list <br>
+                if it contains spaces); if this is missing or a null string (""), <br>
+                the default is taken from the test config file, using the variable <br>
+                for test parameters (TEST_PARAMS).<br>
+<br>
+    example test selection lines for "chkout" and "test4" tests: <br>
+              chkout 64 50 - 00:10:00 *<br>
+              test4 64 50 - 01:00:00 * - "20 128"<br>
+              test4 64 50 - 01:00:00 * runTest41 "20 128"<br>
+<br>
+<br>
+General Use:<br>
+============<br>
+<br>
+  The following scripts are found in the testHome/bin directory.  The -h option<br>
+  gives usage information for each script. <br>
+<br>
+  atc_run -     the main script for submitting jobs for execution.  This script <br>
+                does a lot, so check out the usage info via "atc_run -h".  <br>
+                It begins by reading the submission configuration file and submits <br>
+                the tests listed therein according to the options entered.  <br>
+                Then it continues monitoring each job that it has submitted,<br>
+                waiting for completion (or error conditions, etc.), and <br>
+                saves the output properly in the test results directory.<br>
+                It can be asked to just submit the jobs and not monitor their <br>
+                progress (batch mode, -b option).<br>
+  qjobs -       displays current status of all jobs on the system in a nicely<br>
+                readable format. (based on qstat which is a Torque command)<br>
+  rrjobs -      displays current status of all jobs on the system in a nicely<br>
+                readable format. (based on Moab commands only)<br>
+  atc_coverage - generates reports of test run node coverage over all nodes in <br>
+                the system.  This script is very useful during acceptance testing <br>
+                to ensure full test coverage.<br>
+  atc_results - summarizes test completion status for tests whose output files <br>
+                are in the results directory.<br>
+  atc_kill -    terminates selected jobs and cleans up their working directories.<br>
+  kill_my_jobs - script used to cancel all submitted jobs belonging to the current user.<br>
+<br>
+<br>
+Building A Test<br>
+==================-<br>
+<br>
+* cd to the testHome/test_exec/testName directory and run the makeit script.<br>
+<br>
+<br>
+Running A Test<br>
+==============<br>
+<br>
+* To execute one or more tests, run testHome/bin/atc_run -u (segment_name)<br>
+  This will read the testHome/submit_configs/test_config_(segment_name) file<br>
+  and submit for execution the tests as defined therein.  See configuration<br>
+  notes above about setting up that file.  Also use the -h option to see all<br>
+  of the options available.<br>
+<br>
+* atc_run will let you know what's going on as it progresses (if not in batch mode), <br>
+  however, you may find it helpful to have an additional window connected to the <br>
+  same machine through which you can run checkjob, showq, qjobs, etc., to follow<br>
+  how Moab is allocation resources and executing your jobs.<br>
+<br>
+Output<br>
+======<br>
+<br>
+* The directory where all the output logs are placed will be displayed when the job <br>
+  finishes. In this directory, a file called (testName).log should contain the final <br>
+  post-processed results for this job.  The Moab output files will also be stored<br>
+  into that directory if the job completed normally.<br>
+<br>
+* Run "atc_results" to check the results of a test.  Use the -h option<br>
+  to see additional options.<br>
+<br>
+* Use "atc_coverage" to check node coverage of the test runs. Again, use the -h<br>
+  option for usage choices.<br>
+<br>
+* If you run in batch mode (atc_run -b ...) the Moab output files will not<br>
+  be stored with the completed job's files.  Run "atc_xfer -m" to rectify<br>
+  this, and to report if any jobs either have no Moab files, or if there are Moab<br>
+  files but no completed output directory.<br>
+<br>
+* Once you have a number of completed test runs and you want to preserve the<br>
+  output data on a more permanent file system (possibly at a remote site),<br>
+  run "atc_xfer" to move the files appropriately.  Use the -h option<br>
+  here to see options available for the transfer.<br>
+<br>
+<br>
+Debug Tips <br>
+==========<br>
+<br>
+The submission log file is a good place to see the results of a job launch. This <br>
+file is indicated in the first line printed to STDOUT as soon as atc_run<br>
+is started. If things just won't run, use "atc_run -v ..." and<br>
+then look in this log file; -v turns on more debugging printouts. <br>
+<br>
+If a test keeps failing there are multiple places that are useful to look for ideas.<br>
+The aforementioned submission log file will have a line that looks like<br>
+"Final results directory for (jobId) is:". Go to that directory. The files of interest<br>
+in here are: the testName.log file and the resource manager error and output files<br>
+which at LANL are named something like (jobId).hostname.ER and (jobId).hostname.OU <br>
+respectively.   If that directory doesn't exist or the Moab files are not there,<br>
+look in the output results directory (specified in gazebo.conf).  It is here that<br>
+the submission files are kept along with Moab files.  Also here, of course, is<br>
+the output results directory tree that begins with the subdirectory "gzshared".<br>
+<br>
+<br>
+Contacts<br>
+========<br>
+<br>
+Please send e-mail to gazebo-team@lanl.gov with comments, suggestions, bugs, <br>
+collaboration ideas, etc.  We welcome your help in making this a reliable, useful, <br>
+and robust product. Thanks!<br>
+Trend Data <br>
+==========<br>
+<br>
+For each test run Gazebo can store of number of data values called Trend Data. This <br>
+data is defined by the test developer and can be useful for further analysis of the test data.<br>
+For example, trend data can be used through the web interface for plotting purposes.<br>
+Follow these guidelines when including trend data in the test output.<br>
+<br>
+<br>
+Syntax:<br>
+(td) name value [units]<br>
+<br>
+Explanation:<br>
+(td) - maker used by the parser.<br>
+name - user supplied char string, up to 32 chars <br>
+value - user supplied char string, up to 64 chars<br>
+units - user supplied char string, up to 24 chars<br>
+<br>
+Rules:<br>
+- One name/value entry per line.<br>
+- The units component is optional.<br>
+- The (td) marker must start at the beginning of the line.<br>
+- name strings MUST be unique for each test run, duplicates will be ignored.<br>
+- Maximum 4k entries allowed per test. <br>
+<br>
+Query Data:<br>
+Trend data can be viewed using the cli scripts gazebo_results and atc_results<br>
+with the "-T" option. Data is harvested from the test results directories.<br>
+<br>
+Trend data can also be viewed with the viewTrendData script found in the mysql<br>
+sub-directory. The difference between this and the above tools is that this one<br>
+queries it's data from the gazebo database. It can respond much faster, but <br>
+is available in production environments only.</p><br>

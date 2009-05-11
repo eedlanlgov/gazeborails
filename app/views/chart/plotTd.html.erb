@@ -1,0 +1,16 @@
+<!-- # The following three variables are used in the "common" layout -->
+
+<% @page_title=" Trend Data " %>
+<% @page_heading=" Gazebo Test Data" %>
+<CENTER>
+<h2>Line Chart of Trend Data</h2>
+<%
+        # The xml is obtained as a string from builder template.
+        str_xml = render :file=>"fusioncharts/array_example/td_array_data",:locals=>{:arr_data => @td_data}
+        
+        #Create the chart - Column 3D Chart with data contained in str_xml
+        render_chart '/FusionCharts/Line.swf', '', str_xml, 'LinlId', 900, 500, false, false do-%>
+
+
+<% end -%>
+
